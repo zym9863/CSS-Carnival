@@ -1,0 +1,212 @@
+/* 基础样式设置 */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Cherry+Bomb+One&family=Comic+Neue&display=swap');
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, hsl(198, 90%, 75%), hsl(278, 60%, 65%), hsl(340, 90%, 70%));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Comic Neue', sans-serif;
+}
+
+.amusement-park {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    display: flex; /* 使用Flexbox布局 */
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 水平居中对齐 */
+}
+
+/* 过山车样式 */
+.roller-coaster {
+    position: absolute;
+    bottom: 100px;
+    left: 50px;
+    width: 300px;
+    height: 200px;
+}
+
+.track {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: #333;
+    border-radius: 50%;
+    transform: rotate(-5deg);
+}
+
+.cart {
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    width: 60px;
+    height: 30px;
+    background: linear-gradient(to right, hsl(28, 85%, 55%), hsl(55, 100%, 60%));
+    border-radius: 10px;
+    animation: ride 4s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    box-shadow: 0 0 15px hsl(278, 60%, 65%);
+}
+
+/* 摩天轮样式 */
+.ferris-wheel {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    width: 300px;
+    height: 300px;
+}
+
+.wheel {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 15px solid hsl(340, 90%, 70%);
+    box-shadow: 0 0 30px hsla(340, 90%, 70%, 0.7);
+    border-radius: 50%;
+    animation: rotate 10s linear infinite;
+    background: radial-gradient(circle at center, transparent 30%, hsl(152, 70%, 85%) 70%);
+    box-shadow: 0 0 20px hsl(55, 100%, 60%);
+}
+
+.cabin {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, hsl(55, 100%, 60%), hsl(28, 85%, 55%));
+    border-radius: 5px;
+    transform-origin: 100px 100px;
+    box-shadow: 0 0 15px hsla(340, 90%, 70%, 0.8);
+    border: 2px solid white;
+    animation: bounce 3s ease-in-out infinite;
+}
+
+.cabin-1 { transform: rotate(0deg) translateX(120px); }
+.cabin-2 { transform: rotate(60deg) translateX(120px); }
+.cabin-3 { transform: rotate(120deg) translateX(120px); }
+.cabin-4 { transform: rotate(180deg) translateX(120px); }
+.cabin-5 { transform: rotate(240deg) translateX(120px); }
+.cabin-6 { transform: rotate(300deg) translateX(120px); }
+
+.stand {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 150px;
+    background: #333;
+}
+
+/* 彩带样式 */
+.ribbons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ribbon {
+    position: absolute;
+    width: 4px;
+    height: 120px;
+    background: linear-gradient(45deg, 
+        hsl(340, 90%, 70%) 0%, 
+        hsl(278, 60%, 65%) 50%, 
+        hsl(55, 100%, 60%) 100%);
+    filter: drop-shadow(0 0 10px hsla(55, 100%, 60%, 0.7));
+    transform-origin: bottom center;
+    animation: wave 3s ease-in-out infinite, colorShift 5s linear infinite;
+}
+
+.ribbon-1 {
+    left: 20%;
+    animation: wave 3s ease-in-out infinite;
+}
+
+.ribbon-2 {
+    left: 50%;
+    animation: wave 3s ease-in-out infinite 0.5s;
+}
+
+.ribbon-3 {
+    left: 80%;
+    animation: wave 3s ease-in-out infinite 1s;
+}
+
+/* 控制按钮样式 */
+.controls {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px; /* 按钮下方留出空间 */
+}
+
+.control-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: hsl(152, 70%, 85%);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Cherry Bomb One', cursive;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+}
+
+.control-btn:active {
+    transform: scale(0.9);
+}
+
+/* 图片展示区域样式 */
+.image-gallery {
+    display: flex; /* 使用Flexbox */
+    justify-content: center; /* 水平居中 */
+    gap: 10px; /* 图片间距 */
+    margin-bottom: 20px; /* 与底边保持距离 */
+}
+
+.image-gallery img {
+    width: 200px; /* 固定宽度 */
+    height: auto; /* 高度自适应 */
+    border-radius: 8px; /* 圆角 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* 阴影 */
+    transition: transform 0.3s ease-in-out; /* 动画过渡 */
+}
+
+.image-gallery img:hover {
+    transform: scale(1.05); /* 鼠标悬停放大效果 */
+}
+
+/* 动画关键帧 */
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes ride {
+    0% { transform: translateX(0) translateY(0) rotate(0deg); }
+    25% { transform: translateX(75px) translateY(-30px) rotate(-5deg); }
+    50% { transform: translateX(150px) translateY(0) rotate(0deg); }
+    75% { transform: translateX(225px) translateY(-20px) rotate(5deg); }
+    100% { transform: translateX(300px) translateY(0) rotate(0deg); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(var(--rotation)); }
+    50% { transform: translateY(-10px) rotate(var(--rotation)); }
+}
+
+@keyframes wave {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(15deg); }
+    100% { transform: rotate(0deg); }
+}
