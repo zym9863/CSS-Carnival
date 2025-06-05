@@ -1,108 +1,373 @@
-/* 基础样式设置 */
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Cherry+Bomb+One&family=Comic+Neue&display=swap');
+/* 字体导入 */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600&family=Pacifico&display=swap');
+
+/* CSS 变量定义 */
+:root {
+    --primary-purple: #8B5FBF;
+    --secondary-pink: #FF6B9D;
+    --accent-yellow: #FFD93D;
+    --accent-orange: #FF8C42;
+    --accent-blue: #4ECDC4;
+    --accent-green: #95E1D3;
+    --dark-purple: #5D4E75;
+    --light-cream: #FFF8E7;
+    --gradient-sunset: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-carnival: linear-gradient(45deg, var(--secondary-pink), var(--accent-yellow), var(--accent-blue));
+    --shadow-glow: 0 0 20px rgba(255, 107, 157, 0.4);
+    --shadow-deep: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-    margin: 0;
     min-height: 100vh;
-    background: linear-gradient(to bottom, hsl(198, 90%, 75%), hsl(278, 60%, 65%), hsl(340, 90%, 70%));
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 25%, 
+        #f093fb 50%, 
+        #f5576c 75%, 
+        #4facfe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 背景装饰 */
+.background-decorations {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, white, transparent),
+        radial-gradient(2px 2px at 40px 70px, white, transparent),
+        radial-gradient(1px 1px at 90px 40px, white, transparent),
+        radial-gradient(1px 1px at 130px 80px, white, transparent),
+        radial-gradient(2px 2px at 160px 30px, white, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: twinkle 4s linear infinite;
+}
+
+.clouds {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 100px;
+    opacity: 0.6;
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 100px;
+}
+
+.cloud-1 {
+    width: 100px;
+    height: 40px;
+    top: 20%;
+    left: 10%;
+    animation: float 20s linear infinite;
+}
+
+.cloud-1::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 10px;
+}
+
+.cloud-1::after {
+    width: 60px;
+    height: 40px;
+    top: -15px;
+    right: 10px;
+}
+
+.cloud-2 {
+    width: 80px;
+    height: 30px;
+    top: 15%;
+    right: 20%;
+    animation: float 25s linear infinite reverse;
+}
+
+.cloud-2::before {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 15px;
+}
+
+.cloud-2::after {
+    width: 50px;
+    height: 30px;
+    top: -10px;
+    right: 15px;
+}
+
+.cloud-3 {
+    width: 120px;
+    height: 50px;
+    top: 10%;
+    left: 60%;
+    animation: float 30s linear infinite;
+}
+
+.cloud-3::before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 20px;
+}
+
+.cloud-3::after {
+    width: 70px;
+    height: 50px;
+    top: -20px;
+    right: 20px;
+}
+
+/* 标题样式 */
+.park-header {
+    text-align: center;
+    padding: 2rem 0;
+    position: relative;
+    z-index: 10;
+}
+
+.park-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3.5rem;
+    background: var(--gradient-carnival);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0.5rem;
+    animation: titlePulse 3s ease-in-out infinite;
+}
+
+.park-subtitle {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2rem;
+    color: var(--light-cream);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    animation: subtitleFloat 4s ease-in-out infinite;
+}
+
+/* 控制面板 */
+.control-panel {
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-family: 'Comic Neue', sans-serif;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    z-index: 10;
+    position: relative;
 }
 
+.control-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(45deg, var(--secondary-pink), var(--accent-yellow));
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: var(--shadow-deep);
+    position: relative;
+    overflow: hidden;
+}
+
+.control-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.control-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 107, 157, 0.4);
+}
+
+.control-btn:hover::before {
+    left: 100%;
+}
+
+.control-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* 主游乐园容器 */
 .amusement-park {
     position: relative;
-    width: 800px;
-    height: 600px;
-    display: flex; /* 使用Flexbox布局 */
-    flex-direction: column; /* 垂直排列 */
-    align-items: center; /* 水平居中对齐 */
+    width: 90vw;
+    max-width: 1200px;
+    height: 80vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    perspective: 1000px;
 }
 
-/* 过山车样式 */
+/* 过山车增强样式 */
 .roller-coaster {
     position: absolute;
-    bottom: 100px;
-    left: 50px;
-    width: 300px;
-    height: 200px;
+    bottom: 200px;
+    left: 5%;
+    width: 400px;
+    height: 250px;
+    z-index: 5;
 }
 
 .track {
     position: absolute;
-    bottom: 0;
+    bottom: 50px;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #333, #666, #333);
+    border-radius: 4px;
+    transform: rotate(-8deg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.track::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
     width: 100%;
     height: 4px;
-    background: #333;
-    border-radius: 50%;
-    transform: rotate(-5deg);
+    background: linear-gradient(90deg, var(--accent-yellow), var(--accent-orange));
+    border-radius: 2px;
+}
+
+.track-support {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 6px;
+    height: 80px;
+    background: #444;
+    transform: translateX(-50%);
+    border-radius: 3px;
 }
 
 .cart {
     position: absolute;
-    bottom: 4px;
+    bottom: 58px;
     left: 0;
-    width: 60px;
-    height: 30px;
-    background: linear-gradient(to right, hsl(28, 85%, 55%), hsl(55, 100%, 60%));
-    border-radius: 10px;
-    animation: ride 4s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-    box-shadow: 0 0 15px hsl(278, 60%, 65%);
+    width: 80px;
+    height: 40px;
+    background: linear-gradient(45deg, var(--secondary-pink), var(--accent-orange));
+    border-radius: 15px;
+    animation: rideEnhanced 6s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+    box-shadow: var(--shadow-glow);
+    position: relative;
 }
 
-/* 摩天轮样式 */
+.cart::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 15px;
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+    box-shadow: 35px 0 0 #333;
+}
+
+.passenger {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: var(--accent-yellow);
+    border-radius: 50%;
+    animation: passengerExcitement 0.5s ease-in-out infinite alternate;
+}
+
+.passenger::before {
+    content: '😄';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+}
+
+/* 摩天轮增强样式 */
 .ferris-wheel {
     position: absolute;
     top: 50px;
-    right: 50px;
-    width: 300px;
-    height: 300px;
+    right: 10%;
+    width: 350px;
+    height: 350px;
+    z-index: 4;
 }
 
 .wheel {
     position: absolute;
-    width: 200px;
-    height: 200px;
-    border: 15px solid hsl(340, 90%, 70%);
-    box-shadow: 0 0 30px hsla(340, 90%, 70%, 0.7);
+    width: 250px;
+    height: 250px;
+    border: 8px solid var(--accent-blue);
     border-radius: 50%;
-    animation: rotate 10s linear infinite;
-    background: radial-gradient(circle at center, transparent 30%, hsl(152, 70%, 85%) 70%);
-    box-shadow: 0 0 20px hsl(55, 100%, 60%);
+    animation: rotate 15s linear infinite;
+    background: radial-gradient(circle at center, transparent 60%, rgba(79, 205, 196, 0.2) 80%);
+    box-shadow: 
+        0 0 30px var(--accent-blue),
+        inset 0 0 30px rgba(79, 205, 196, 0.2);
+    position: relative;
 }
 
-.cabin {
+.wheel-center {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, hsl(55, 100%, 60%), hsl(28, 85%, 55%));
-    border-radius: 5px;
-    transform-origin: 100px 100px;
-    box-shadow: 0 0 15px hsla(340, 90%, 70%, 0.8);
-    border: 2px solid white;
-    animation: bounce 3s ease-in-out infinite;
+    background: var(--accent-yellow);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--accent-yellow);
 }
 
-.cabin-1 { transform: rotate(0deg) translateX(120px); }
-.cabin-2 { transform: rotate(60deg) translateX(120px); }
-.cabin-3 { transform: rotate(120deg) translateX(120px); }
-.cabin-4 { transform: rotate(180deg) translateX(120px); }
-.cabin-5 { transform: rotate(240deg) translateX(120px); }
-.cabin-6 { transform: rotate(300deg) translateX(120px); }
-
-.stand {
-    position: absolute;
-    bottom: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 150px;
-    background: #333;
-}
-
-/* 彩带样式 */
-.ribbons {
+.wheel-spokes {
     position: absolute;
     top: 0;
     left: 0;
@@ -110,103 +375,497 @@ body {
     height: 100%;
 }
 
+.wheel-spokes::before,
+.wheel-spokes::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 50%;
+    background: var(--accent-blue);
+    transform-origin: bottom center;
+}
+
+.wheel-spokes::before {
+    transform: translate(-50%, -100%) rotate(0deg);
+}
+
+.wheel-spokes::after {
+    transform: translate(-50%, -100%) rotate(60deg);
+}
+
+.cabin {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--accent-yellow), var(--accent-orange));
+    border-radius: 8px;
+    transform-origin: 125px 125px;
+    box-shadow: var(--shadow-glow);
+    border: 3px solid white;
+    animation: cabinKeepLevel 15s linear infinite reverse;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.cabin-1 { transform: rotate(0deg) translateX(140px) rotate(0deg); }
+.cabin-2 { transform: rotate(60deg) translateX(140px) rotate(-60deg); }
+.cabin-3 { transform: rotate(120deg) translateX(140px) rotate(-120deg); }
+.cabin-4 { transform: rotate(180deg) translateX(140px) rotate(-180deg); }
+.cabin-5 { transform: rotate(240deg) translateX(140px) rotate(-240deg); }
+.cabin-6 { transform: rotate(300deg) translateX(140px) rotate(-300deg); }
+
+.stand {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 180px;
+    background: linear-gradient(180deg, #444, #222);
+    border-radius: 15px;
+    box-shadow: var(--shadow-deep);
+}
+
+.base {
+    position: absolute;
+    bottom: -90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 20px;
+    background: var(--dark-purple);
+    border-radius: 10px;
+    box-shadow: var(--shadow-deep);
+}
+
+/* 旋转木马 */
+.carousel {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    z-index: 3;
+}
+
+.carousel-top {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 20px;
+    background: linear-gradient(45deg, var(--secondary-pink), var(--accent-yellow));
+    border-radius: 50%;
+    box-shadow: var(--shadow-glow);
+}
+
+.carousel-base {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+    border-radius: 50%;
+    animation: rotate 8s linear infinite;
+    box-shadow: var(--shadow-deep);
+}
+
+.horse {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    animation: horseUpDown 2s ease-in-out infinite;
+}
+
+.horse-1 {
+    top: 10px;
+    left: 10px;
+    animation-delay: 0s;
+}
+
+.horse-2 {
+    top: 10px;
+    right: 10px;
+    animation-delay: 0.5s;
+}
+
+.horse-3 {
+    bottom: 10px;
+    left: 10px;
+    animation-delay: 1s;
+}
+
+.horse-4 {
+    bottom: 10px;
+    right: 10px;
+    animation-delay: 1.5s;
+}
+
+.carousel-pole {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 120px;
+    background: linear-gradient(180deg, var(--accent-yellow), var(--accent-orange));
+    border-radius: 4px;
+    box-shadow: 0 0 10px var(--accent-yellow);
+}
+
+/* 增强的彩带 */
+.ribbons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
 .ribbon {
     position: absolute;
-    width: 4px;
-    height: 120px;
+    width: 6px;
+    height: 150px;
     background: linear-gradient(45deg, 
-        hsl(340, 90%, 70%) 0%, 
-        hsl(278, 60%, 65%) 50%, 
-        hsl(55, 100%, 60%) 100%);
-    filter: drop-shadow(0 0 10px hsla(55, 100%, 60%, 0.7));
+        var(--secondary-pink) 0%, 
+        var(--accent-yellow) 25%, 
+        var(--accent-blue) 50%, 
+        var(--accent-green) 75%, 
+        var(--accent-orange) 100%);
+    filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.6));
     transform-origin: bottom center;
-    animation: wave 3s ease-in-out infinite, colorShift 5s linear infinite;
+    animation: ribbonWave 4s ease-in-out infinite;
 }
 
 .ribbon-1 {
-    left: 20%;
-    animation: wave 3s ease-in-out infinite;
+    left: 10%;
+    animation-delay: 0s;
+    height: 120px;
 }
 
 .ribbon-2 {
-    left: 50%;
-    animation: wave 3s ease-in-out infinite 0.5s;
+    left: 25%;
+    animation-delay: 0.5s;
+    height: 140px;
 }
 
 .ribbon-3 {
-    left: 80%;
-    animation: wave 3s ease-in-out infinite 1s;
+    left: 50%;
+    animation-delay: 1s;
+    height: 100px;
 }
 
-/* 控制按钮样式 */
-.controls {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px; /* 按钮下方留出空间 */
+.ribbon-4 {
+    left: 75%;
+    animation-delay: 1.5s;
+    height: 130px;
 }
 
-.control-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    background: hsl(152, 70%, 85%);
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-family: 'Cherry Bomb One', cursive;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+.ribbon-5 {
+    left: 90%;
+    animation-delay: 2s;
+    height: 110px;
 }
 
-.control-btn:hover {
-    transform: scale(1.1);
+/* 地面装饰 */
+.ground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    z-index: 1;
 }
 
-.control-btn:active {
-    transform: scale(0.9);
+.grass {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(180deg, var(--accent-green), #4CAF50);
+    border-radius: 50% 50% 0 0;
 }
 
-/* 图片展示区域样式 */
-.image-gallery {
-    display: flex; /* 使用Flexbox */
-    justify-content: center; /* 水平居中 */
-    gap: 10px; /* 图片间距 */
-    margin-bottom: 20px; /* 与底边保持距离 */
+.grass::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 5px,
+        var(--accent-green) 5px,
+        var(--accent-green) 10px
+    );
 }
 
-.image-gallery img {
-    width: 200px; /* 固定宽度 */
-    height: auto; /* 高度自适应 */
-    border-radius: 8px; /* 圆角 */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* 阴影 */
-    transition: transform 0.3s ease-in-out; /* 动画过渡 */
+.flowers {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    height: 40px;
 }
 
-.image-gallery img:hover {
-    transform: scale(1.05); /* 鼠标悬停放大效果 */
+.flower {
+    position: absolute;
+    font-size: 2rem;
+    animation: flowerSway 3s ease-in-out infinite;
+}
+
+.flower-1 {
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.flower-2 {
+    left: 35%;
+    animation-delay: 0.7s;
+}
+
+.flower-3 {
+    left: 65%;
+    animation-delay: 1.4s;
+}
+
+.flower-4 {
+    left: 85%;
+    animation-delay: 2.1s;
+}
+
+/* 灯光效果 */
+.lighting {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 8;
+}
+
+.spotlight {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 40%, 
+        transparent 70%);
+    animation: spotlightMove 10s ease-in-out infinite;
+}
+
+.spotlight-1 {
+    top: 20%;
+    left: 10%;
+    background: radial-gradient(circle at center, 
+        rgba(255, 107, 157, 0.2) 0%, 
+        rgba(255, 107, 157, 0.1) 40%, 
+        transparent 70%);
+    animation-delay: 0s;
+}
+
+.spotlight-2 {
+    top: 30%;
+    right: 20%;
+    background: radial-gradient(circle at center, 
+        rgba(79, 205, 196, 0.2) 0%, 
+        rgba(79, 205, 196, 0.1) 40%, 
+        transparent 70%);
+    animation-delay: 3s;
+}
+
+.spotlight-3 {
+    bottom: 30%;
+    left: 50%;
+    background: radial-gradient(circle at center, 
+        rgba(255, 217, 61, 0.2) 0%, 
+        rgba(255, 217, 61, 0.1) 40%, 
+        transparent 70%);
+    animation-delay: 6s;
+}
+
+/* 页脚 */
+.park-footer {
+    text-align: center;
+    padding: 2rem 0;
+    position: relative;
+    z-index: 10;
+}
+
+.park-footer p {
+    color: var(--light-cream);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    animation: footerGlow 3s ease-in-out infinite;
 }
 
 /* 动画关键帧 */
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+@keyframes float {
+    0% { transform: translateX(-20px); }
+    100% { transform: translateX(calc(100vw + 20px)); }
+}
+
+@keyframes titlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes subtitleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
 @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-@keyframes ride {
-    0% { transform: translateX(0) translateY(0) rotate(0deg); }
-    25% { transform: translateX(75px) translateY(-30px) rotate(-5deg); }
-    50% { transform: translateX(150px) translateY(0) rotate(0deg); }
-    75% { transform: translateX(225px) translateY(-20px) rotate(5deg); }
-    100% { transform: translateX(300px) translateY(0) rotate(0deg); }
+@keyframes rideEnhanced {
+    0% { 
+        transform: translateX(0) translateY(0) rotate(0deg); 
+        filter: hue-rotate(0deg);
+    }
+    20% { 
+        transform: translateX(80px) translateY(-40px) rotate(-8deg); 
+        filter: hue-rotate(72deg);
+    }
+    40% { 
+        transform: translateX(160px) translateY(-20px) rotate(0deg); 
+        filter: hue-rotate(144deg);
+    }
+    60% { 
+        transform: translateX(240px) translateY(-50px) rotate(5deg); 
+        filter: hue-rotate(216deg);
+    }
+    80% { 
+        transform: translateX(320px) translateY(-10px) rotate(-3deg); 
+        filter: hue-rotate(288deg);
+    }
+    100% { 
+        transform: translateX(400px) translateY(0) rotate(0deg); 
+        filter: hue-rotate(360deg);
+    }
 }
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0) rotate(var(--rotation)); }
-    50% { transform: translateY(-10px) rotate(var(--rotation)); }
+@keyframes passengerExcitement {
+    0% { transform: translateX(-50%) scale(1); }
+    100% { transform: translateX(-50%) scale(1.1) rotate(5deg); }
 }
 
-@keyframes wave {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(15deg); }
-    100% { transform: rotate(0deg); }
+@keyframes cabinKeepLevel {
+    from { transform: rotate(0deg) translateX(140px) rotate(0deg); }
+    to { transform: rotate(-360deg) translateX(140px) rotate(360deg); }
+}
+
+@keyframes horseUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes ribbonWave {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(15deg) scale(1.1); }
+    75% { transform: rotate(-10deg) scale(0.9); }
+}
+
+@keyframes flowerSway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(10deg); }
+}
+
+@keyframes spotlightMove {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+    50% { transform: translate(20px, -10px) scale(1.2); opacity: 0.6; }
+}
+
+@keyframes footerGlow {
+    0%, 100% { text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); }
+    50% { text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3); }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .park-title {
+        font-size: 2.5rem;
+    }
+    
+    .amusement-park {
+        width: 95vw;
+        height: 70vh;
+    }
+    
+    .roller-coaster {
+        width: 300px;
+        left: 2%;
+    }
+    
+    .ferris-wheel {
+        width: 250px;
+        height: 250px;
+        right: 5%;
+    }
+    
+    .wheel {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .control-panel {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .control-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* 动画暂停类（为控制按钮准备） */
+.paused * {
+    animation-play-state: paused !important;
+}
+
+/* 悬浮效果增强 */
+.ferris-wheel:hover .wheel {
+    animation-duration: 8s;
+}
+
+.roller-coaster:hover .cart {
+    animation-duration: 3s;
+}
+
+.carousel:hover .carousel-base {
+    animation-duration: 4s;
 }

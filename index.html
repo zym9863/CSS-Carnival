@@ -3,28 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS 游乐园</title>
+    <title>CSS Carnival - 魔法游乐园</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
 </head>
 <body>
+    <!-- 背景装饰 -->
+    <div class="background-decorations">
+        <div class="stars"></div>
+        <div class="clouds">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+        </div>
+    </div>
+
+    <!-- 主标题 -->
+    <header class="park-header">
+        <h1 class="park-title">🎪 CSS Carnival 🎪</h1>
+        <p class="park-subtitle">欢迎来到魔法游乐园</p>
+    </header>
+
+    <!-- 控制面板 -->
+    <div class="control-panel">
+        <button class="control-btn" id="playBtn">▶️ 开始狂欢</button>
+        <button class="control-btn" id="pauseBtn">⏸️ 暂停</button>
+        <button class="control-btn" id="resetBtn">🔄 重置</button>
+    </div>
+
     <div class="amusement-park">
         <!-- 过山车部分 -->
         <div class="roller-coaster">
             <div class="track"></div>
-            <div class="cart"></div>
+            <div class="cart">
+                <div class="passenger"></div>
+            </div>
+            <div class="track-support"></div>
         </div>
 
         <!-- 摩天轮部分 -->
         <div class="ferris-wheel">
             <div class="wheel">
-                <div class="cabin cabin-1"></div>
-                <div class="cabin cabin-2"></div>
-                <div class="cabin cabin-3"></div>
-                <div class="cabin cabin-4"></div>
-                <div class="cabin cabin-5"></div>
-                <div class="cabin cabin-6"></div>
+                <div class="wheel-center"></div>
+                <div class="cabin cabin-1">🎈</div>
+                <div class="cabin cabin-2">🎭</div>
+                <div class="cabin cabin-3">🎪</div>
+                <div class="cabin cabin-4">🎨</div>
+                <div class="cabin cabin-5">🎵</div>
+                <div class="cabin cabin-6">⭐</div>
+                <div class="wheel-spokes"></div>
             </div>
             <div class="stand"></div>
+            <div class="base"></div>
+        </div>
+
+        <!-- 旋转木马 -->
+        <div class="carousel">
+            <div class="carousel-top"></div>
+            <div class="carousel-base">
+                <div class="horse horse-1">🦄</div>
+                <div class="horse horse-2">🐎</div>
+                <div class="horse horse-3">🦓</div>
+                <div class="horse horse-4">🐴</div>
+            </div>
+            <div class="carousel-pole"></div>
         </div>
 
         <!-- 彩带装饰 -->
@@ -32,7 +75,32 @@
             <div class="ribbon ribbon-1"></div>
             <div class="ribbon ribbon-2"></div>
             <div class="ribbon ribbon-3"></div>
+            <div class="ribbon ribbon-4"></div>
+            <div class="ribbon ribbon-5"></div>
+        </div>
+
+        <!-- 地面装饰 -->
+        <div class="ground">
+            <div class="grass"></div>
+            <div class="flowers">
+                <div class="flower flower-1">🌸</div>
+                <div class="flower flower-2">🌺</div>
+                <div class="flower flower-3">🌼</div>
+                <div class="flower flower-4">🌻</div>
+            </div>
+        </div>
+
+        <!-- 灯光效果 -->
+        <div class="lighting">
+            <div class="spotlight spotlight-1"></div>
+            <div class="spotlight spotlight-2"></div>
+            <div class="spotlight spotlight-3"></div>
         </div>
     </div>
+
+    <!-- 页脚信息 -->
+    <footer class="park-footer">
+        <p>✨ 纯CSS魔法制作 | 无需JavaScript ✨</p>
+    </footer>
 </body>
 </html>
