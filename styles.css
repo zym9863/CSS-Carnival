@@ -1,871 +1,1210 @@
-/* 字体导入 */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600&family=Pacifico&display=swap');
+/* ============================================================
+   CSS CARNIVAL — MIDNIGHT NEON EDITION
+   A retro-futuristic dark theme with neon glow effects
+   ============================================================ */
 
-/* CSS 变量定义 */
+/* --- Design Tokens --- */
 :root {
-    --primary-purple: #8B5FBF;
-    --secondary-pink: #FF6B9D;
-    --accent-yellow: #FFD93D;
-    --accent-orange: #FF8C42;
-    --accent-blue: #4ECDC4;
-    --accent-green: #95E1D3;
-    --dark-purple: #5D4E75;
-    --light-cream: #FFF8E7;
-    --gradient-sunset: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-carnival: linear-gradient(45deg, var(--secondary-pink), var(--accent-yellow), var(--accent-blue));
-    --shadow-glow: 0 0 20px rgba(255, 107, 157, 0.4);
-    --shadow-deep: 0 10px 30px rgba(0, 0, 0, 0.3);
+    /* Surface colors */
+    --bg-void: #060a1a;
+    --bg-deep: #0a0e27;
+    --bg-surface: #111640;
+    --bg-card: #0d1233;
+    --bg-card-hover: #141a4a;
+
+    /* Neon palette */
+    --neon-cyan: #00f5d4;
+    --neon-magenta: #f72585;
+    --neon-yellow: #fee440;
+    --neon-violet: #7b2ff7;
+    --neon-blue: #4361ee;
+    --neon-orange: #ff6d00;
+
+    /* Text */
+    --text-primary: #e2e0f0;
+    --text-muted: #5a5b7e;
+    --text-dim: #3a3b5e;
+
+    /* Glow presets */
+    --glow-cyan: 0 0 8px var(--neon-cyan), 0 0 24px rgba(0,245,212,.25);
+    --glow-magenta: 0 0 8px var(--neon-magenta), 0 0 24px rgba(247,37,133,.25);
+    --glow-yellow: 0 0 8px var(--neon-yellow), 0 0 24px rgba(254,228,64,.2);
+    --glow-violet: 0 0 8px var(--neon-violet), 0 0 24px rgba(123,47,247,.25);
+
+    /* Typography */
+    --font-display: 'Righteous', cursive;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'Orbitron', monospace;
+
+    /* Timing */
+    --speed: 1;
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-/* 基础样式重置 */
-* {
+/* Day theme override */
+.theme-day {
+    --bg-void: #eef1f8;
+    --bg-deep: #f4f6fc;
+    --bg-surface: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f0f2ff;
+    --neon-cyan: #0891b2;
+    --neon-magenta: #db2777;
+    --neon-yellow: #ca8a04;
+    --neon-violet: #7c3aed;
+    --neon-blue: #2563eb;
+    --text-primary: #1e1b4b;
+    --text-muted: #6b7280;
+    --text-dim: #9ca3af;
+    --glow-cyan: 0 2px 12px rgba(8,145,178,.15);
+    --glow-magenta: 0 2px 12px rgba(219,39,119,.15);
+    --glow-yellow: 0 2px 12px rgba(202,138,4,.12);
+    --glow-violet: 0 2px 12px rgba(124,58,237,.15);
+}
+
+/* --- Reset --- */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon-cyan) var(--bg-deep);
+}
+
 body {
     min-height: 100vh;
-    background: linear-gradient(135deg, 
-        #667eea 0%, 
-        #764ba2 25%, 
-        #f093fb 50%, 
-        #f5576c 75%, 
-        #4facfe 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    font-family: 'Poppins', sans-serif;
+    background: var(--bg-void);
+    color: var(--text-primary);
+    font-family: var(--font-body);
     overflow-x: hidden;
-    position: relative;
+    cursor: crosshair;
+    transition: background .6s, color .6s;
 }
 
-/* 背景装饰 */
-.background-decorations {
+/* --- Background Layers --- */
+.bg-grid {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
+    inset: 0;
+    z-index: 0;
+    background-image:
+        linear-gradient(rgba(0,245,212,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,212,.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 40%, transparent 100%);
 }
 
-.stars {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(2px 2px at 20px 30px, white, transparent),
-        radial-gradient(2px 2px at 40px 70px, white, transparent),
-        radial-gradient(1px 1px at 90px 40px, white, transparent),
-        radial-gradient(1px 1px at 130px 80px, white, transparent),
-        radial-gradient(2px 2px at 160px 30px, white, transparent);
+.theme-day .bg-grid {
+    background-image:
+        linear-gradient(rgba(37,99,235,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,.06) 1px, transparent 1px);
+}
+
+.bg-noise {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: .35;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
     background-repeat: repeat;
-    background-size: 200px 100px;
-    animation: twinkle 4s linear infinite;
+    background-size: 200px;
 }
 
-.clouds {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-.cloud {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 100px;
-    opacity: 0.6;
-}
-
-.cloud::before,
-.cloud::after {
-    content: '';
-    position: absolute;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 100px;
-}
-
-.cloud-1 {
-    width: 100px;
-    height: 40px;
-    top: 20%;
-    left: 10%;
-    animation: float 20s linear infinite;
-}
-
-.cloud-1::before {
-    width: 50px;
-    height: 50px;
-    top: -25px;
-    left: 10px;
-}
-
-.cloud-1::after {
-    width: 60px;
-    height: 40px;
-    top: -15px;
-    right: 10px;
-}
-
-.cloud-2 {
-    width: 80px;
-    height: 30px;
-    top: 15%;
-    right: 20%;
-    animation: float 25s linear infinite reverse;
-}
-
-.cloud-2::before {
-    width: 40px;
-    height: 40px;
-    top: -20px;
-    left: 15px;
-}
-
-.cloud-2::after {
-    width: 50px;
-    height: 30px;
-    top: -10px;
-    right: 15px;
-}
-
-.cloud-3 {
-    width: 120px;
-    height: 50px;
-    top: 10%;
-    left: 60%;
-    animation: float 30s linear infinite;
-}
-
-.cloud-3::before {
-    width: 60px;
-    height: 60px;
-    top: -30px;
-    left: 20px;
-}
-
-.cloud-3::after {
-    width: 70px;
-    height: 50px;
-    top: -20px;
-    right: 20px;
-}
-
-/* 标题样式 */
-.park-header {
-    text-align: center;
-    padding: 2rem 0;
-    position: relative;
-    z-index: 10;
-}
-
-.park-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: 3.5rem;
-    background: var(--gradient-carnival);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    margin-bottom: 0.5rem;
-    animation: titlePulse 3s ease-in-out infinite;
-}
-
-.park-subtitle {
-    font-family: 'Pacifico', cursive;
-    font-size: 1.2rem;
-    color: var(--light-cream);
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    animation: subtitleFloat 4s ease-in-out infinite;
-}
-
-/* 控制面板 */
-.control-panel {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    z-index: 10;
-    position: relative;
-}
-
-.control-btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 25px;
-    background: linear-gradient(45deg, var(--secondary-pink), var(--accent-yellow));
-    color: white;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: var(--shadow-deep);
-    position: relative;
-    overflow: hidden;
-}
-
-.control-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.5s;
-}
-
-.control-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(255, 107, 157, 0.4);
-}
-
-.control-btn:hover::before {
-    left: 100%;
-}
-
-.control-btn:active {
-    transform: translateY(0) scale(0.98);
-}
-
-/* 主游乐园容器 */
-.amusement-park {
-    position: relative;
-    width: 90vw;
-    max-width: 1200px;
-    height: 80vh;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    perspective: 1000px;
-}
-
-/* 过山车增强样式 */
-.roller-coaster {
-    position: absolute;
-    bottom: 200px;
-    left: 5%;
-    width: 400px;
-    height: 250px;
-    z-index: 5;
-}
-
-.track {
-    position: absolute;
-    bottom: 50px;
-    width: 100%;
-    height: 8px;
-    background: linear-gradient(90deg, #333, #666, #333);
-    border-radius: 4px;
-    transform: rotate(-8deg);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.track::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, var(--accent-yellow), var(--accent-orange));
-    border-radius: 2px;
-}
-
-.track-support {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 6px;
-    height: 80px;
-    background: #444;
-    transform: translateX(-50%);
-    border-radius: 3px;
-}
-
-.cart {
-    position: absolute;
-    bottom: 58px;
-    left: 0;
-    width: 80px;
-    height: 40px;
-    background: linear-gradient(45deg, var(--secondary-pink), var(--accent-orange));
-    border-radius: 15px;
-    animation: rideEnhanced 6s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-    box-shadow: var(--shadow-glow);
-    position: relative;
-}
-
-.cart::before {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 15px;
-    width: 12px;
-    height: 12px;
-    background: #333;
-    border-radius: 50%;
-    box-shadow: 35px 0 0 #333;
-}
-
-.passenger {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 20px;
-    background: var(--accent-yellow);
-    border-radius: 50%;
-    animation: passengerExcitement 0.5s ease-in-out infinite alternate;
-}
-
-.passenger::before {
-    content: '😄';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 16px;
-}
-
-/* 摩天轮增强样式 */
-.ferris-wheel {
-    position: absolute;
-    top: 50px;
-    right: 10%;
-    width: 350px;
-    height: 350px;
-    z-index: 4;
-}
-
-.wheel {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border: 8px solid var(--accent-blue);
-    border-radius: 50%;
-    animation: rotate 15s linear infinite;
-    background: radial-gradient(circle at center, transparent 60%, rgba(79, 205, 196, 0.2) 80%);
-    box-shadow: 
-        0 0 30px var(--accent-blue),
-        inset 0 0 30px rgba(79, 205, 196, 0.2);
-    position: relative;
-}
-
-.wheel-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    background: var(--accent-yellow);
-    border-radius: 50%;
-    box-shadow: 0 0 20px var(--accent-yellow);
-}
-
-.wheel-spokes {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.wheel-spokes::before,
-.wheel-spokes::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 2px;
-    height: 50%;
-    background: var(--accent-blue);
-    transform-origin: bottom center;
-}
-
-.wheel-spokes::before {
-    transform: translate(-50%, -100%) rotate(0deg);
-}
-
-.wheel-spokes::after {
-    transform: translate(-50%, -100%) rotate(60deg);
-}
-
-.cabin {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, var(--accent-yellow), var(--accent-orange));
-    border-radius: 8px;
-    transform-origin: 125px 125px;
-    box-shadow: var(--shadow-glow);
-    border: 3px solid white;
-    animation: cabinKeepLevel 15s linear infinite reverse;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.cabin-1 { transform: rotate(0deg) translateX(140px) rotate(0deg); }
-.cabin-2 { transform: rotate(60deg) translateX(140px) rotate(-60deg); }
-.cabin-3 { transform: rotate(120deg) translateX(140px) rotate(-120deg); }
-.cabin-4 { transform: rotate(180deg) translateX(140px) rotate(-180deg); }
-.cabin-5 { transform: rotate(240deg) translateX(140px) rotate(-240deg); }
-.cabin-6 { transform: rotate(300deg) translateX(140px) rotate(-300deg); }
-
-.stand {
-    position: absolute;
-    bottom: -80px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 180px;
-    background: linear-gradient(180deg, #444, #222);
-    border-radius: 15px;
-    box-shadow: var(--shadow-deep);
-}
-
-.base {
-    position: absolute;
-    bottom: -90px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 20px;
-    background: var(--dark-purple);
-    border-radius: 10px;
-    box-shadow: var(--shadow-deep);
-}
-
-/* 旋转木马 */
-.carousel {
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 200px;
-    z-index: 3;
-}
-
-.carousel-top {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px;
-    height: 20px;
-    background: linear-gradient(45deg, var(--secondary-pink), var(--accent-yellow));
-    border-radius: 50%;
-    box-shadow: var(--shadow-glow);
-}
-
-.carousel-base {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 180px;
-    height: 100px;
-    background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
-    border-radius: 50%;
-    animation: rotate 8s linear infinite;
-    box-shadow: var(--shadow-deep);
-}
-
-.horse {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    animation: horseUpDown 2s ease-in-out infinite;
-}
-
-.horse-1 {
-    top: 10px;
-    left: 10px;
-    animation-delay: 0s;
-}
-
-.horse-2 {
-    top: 10px;
-    right: 10px;
-    animation-delay: 0.5s;
-}
-
-.horse-3 {
-    bottom: 10px;
-    left: 10px;
-    animation-delay: 1s;
-}
-
-.horse-4 {
-    bottom: 10px;
-    right: 10px;
-    animation-delay: 1.5s;
-}
-
-.carousel-pole {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 8px;
-    height: 120px;
-    background: linear-gradient(180deg, var(--accent-yellow), var(--accent-orange));
-    border-radius: 4px;
-    box-shadow: 0 0 10px var(--accent-yellow);
-}
-
-/* 增强的彩带 */
-.ribbons {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.ribbon {
-    position: absolute;
-    width: 6px;
-    height: 150px;
-    background: linear-gradient(45deg, 
-        var(--secondary-pink) 0%, 
-        var(--accent-yellow) 25%, 
-        var(--accent-blue) 50%, 
-        var(--accent-green) 75%, 
-        var(--accent-orange) 100%);
-    filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.6));
-    transform-origin: bottom center;
-    animation: ribbonWave 4s ease-in-out infinite;
-}
-
-.ribbon-1 {
-    left: 10%;
-    animation-delay: 0s;
-    height: 120px;
-}
-
-.ribbon-2 {
-    left: 25%;
-    animation-delay: 0.5s;
-    height: 140px;
-}
-
-.ribbon-3 {
-    left: 50%;
-    animation-delay: 1s;
-    height: 100px;
-}
-
-.ribbon-4 {
-    left: 75%;
-    animation-delay: 1.5s;
-    height: 130px;
-}
-
-.ribbon-5 {
-    left: 90%;
-    animation-delay: 2s;
-    height: 110px;
-}
-
-/* 地面装饰 */
-.ground {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
+.scanlines {
+    position: fixed;
+    inset: 0;
     z-index: 1;
-}
-
-.grass {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background: linear-gradient(180deg, var(--accent-green), #4CAF50);
-    border-radius: 50% 50% 0 0;
-}
-
-.grass::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: 0;
-    width: 100%;
-    height: 20px;
+    pointer-events: none;
     background: repeating-linear-gradient(
-        90deg,
-        transparent 0px,
-        transparent 5px,
-        var(--accent-green) 5px,
-        var(--accent-green) 10px
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,.03) 2px,
+        rgba(0,0,0,.03) 4px
     );
 }
 
-.flowers {
-    position: absolute;
-    bottom: 40px;
-    left: 0;
-    width: 100%;
-    height: 40px;
-}
+.theme-day .bg-noise { opacity: .08; }
+.theme-day .scanlines { opacity: .3; }
 
-.flower {
-    position: absolute;
-    font-size: 2rem;
-    animation: flowerSway 3s ease-in-out infinite;
-}
-
-.flower-1 {
-    left: 15%;
-    animation-delay: 0s;
-}
-
-.flower-2 {
-    left: 35%;
-    animation-delay: 0.7s;
-}
-
-.flower-3 {
-    left: 65%;
-    animation-delay: 1.4s;
-}
-
-.flower-4 {
-    left: 85%;
-    animation-delay: 2.1s;
-}
-
-/* 灯光效果 */
-.lighting {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+/* --- Particles --- */
+.particles {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
     pointer-events: none;
-    z-index: 8;
+    overflow: hidden;
 }
 
-.spotlight {
+.particle {
     position: absolute;
-    width: 200px;
-    height: 200px;
     border-radius: 50%;
-    background: radial-gradient(circle at center, 
-        rgba(255, 255, 255, 0.1) 0%, 
-        rgba(255, 255, 255, 0.05) 40%, 
-        transparent 70%);
-    animation: spotlightMove 10s ease-in-out infinite;
+    animation: particleFloat calc(6s / var(--speed)) linear infinite;
+    opacity: 0;
 }
 
-.spotlight-1 {
-    top: 20%;
-    left: 10%;
-    background: radial-gradient(circle at center, 
-        rgba(255, 107, 157, 0.2) 0%, 
-        rgba(255, 107, 157, 0.1) 40%, 
-        transparent 70%);
-    animation-delay: 0s;
+@keyframes particleFloat {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
 }
 
-.spotlight-2 {
-    top: 30%;
-    right: 20%;
-    background: radial-gradient(circle at center, 
-        rgba(79, 205, 196, 0.2) 0%, 
-        rgba(79, 205, 196, 0.1) 40%, 
-        transparent 70%);
-    animation-delay: 3s;
-}
-
-.spotlight-3 {
-    bottom: 30%;
-    left: 50%;
-    background: radial-gradient(circle at center, 
-        rgba(255, 217, 61, 0.2) 0%, 
-        rgba(255, 217, 61, 0.1) 40%, 
-        transparent 70%);
-    animation-delay: 6s;
-}
-
-/* 页脚 */
-.park-footer {
-    text-align: center;
-    padding: 2rem 0;
+/* --- Hero / Header --- */
+.hero {
     position: relative;
     z-index: 10;
+    text-align: center;
+    padding: 6rem 2rem 3rem;
 }
 
-.park-footer p {
-    color: var(--light-cream);
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    animation: footerGlow 3s ease-in-out infinite;
+.neon-sign {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
 }
 
-/* 动画关键帧 */
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+.neon-bracket {
+    font-family: var(--font-mono);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    color: var(--neon-cyan);
+    text-shadow: var(--glow-cyan);
+    animation: bracketPulse 3s ease-in-out infinite;
+    user-select: none;
 }
 
-@keyframes twinkle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
+.neon-title {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 400;
+    letter-spacing: .05em;
+    line-height: 1;
 }
 
-@keyframes float {
-    0% { transform: translateX(-20px); }
-    100% { transform: translateX(calc(100vw + 20px)); }
+.neon-spacer {
+    display: inline-block;
+    width: .4em;
 }
 
-@keyframes titlePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+.neon-letter {
+    display: inline-block;
+    color: var(--neon-cyan);
+    text-shadow:
+        0 0 4px var(--neon-cyan),
+        0 0 12px var(--neon-cyan),
+        0 0 40px rgba(0,245,212,.3),
+        0 0 80px rgba(0,245,212,.15);
+    animation: neonFlicker 4s ease-in-out infinite;
+    animation-delay: calc(var(--i) * .12s);
 }
 
-@keyframes subtitleFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+.neon-letter.accent {
+    color: var(--neon-magenta);
+    text-shadow:
+        0 0 4px var(--neon-magenta),
+        0 0 12px var(--neon-magenta),
+        0 0 40px rgba(247,37,133,.3),
+        0 0 80px rgba(247,37,133,.15);
 }
 
-@keyframes rotate {
+.theme-day .neon-letter {
+    text-shadow: 0 2px 8px rgba(8,145,178,.2);
+}
+.theme-day .neon-letter.accent {
+    text-shadow: 0 2px 8px rgba(219,39,119,.2);
+}
+
+.hero-sub {
+    font-family: var(--font-mono);
+    font-size: clamp(.7rem, 1.2vw, .9rem);
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: 1.2rem;
+    letter-spacing: .12em;
+}
+
+.typing-text {
+    border-right: none;
+}
+
+.cursor-blink {
+    animation: cursorBlink .8s step-end infinite;
+    color: var(--neon-cyan);
+    font-weight: 700;
+}
+
+.hero-divider {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 2rem;
+}
+
+.hero-divider span {
+    width: 6px;
+    height: 6px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    box-shadow: var(--glow-cyan);
+    animation: dividerPulse 2s ease-in-out infinite;
+}
+
+.hero-divider span:nth-child(2) { animation-delay: .3s; }
+.hero-divider span:nth-child(3) { animation-delay: .6s; }
+
+/* --- Control Dock --- */
+.control-dock {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+.dock-glass {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(10, 14, 39, .7);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    border: 1px solid rgba(0,245,212,.12);
+    border-radius: 50px;
+    box-shadow:
+        0 8px 32px rgba(0,0,0,.4),
+        inset 0 1px 0 rgba(255,255,255,.05);
+    transition: border-color .3s;
+}
+
+.theme-day .dock-glass {
+    background: rgba(255,255,255,.85);
+    border-color: rgba(37,99,235,.15);
+    box-shadow: 0 8px 32px rgba(0,0,0,.08);
+}
+
+.dock-glass:hover {
+    border-color: rgba(0,245,212,.3);
+}
+
+.dock-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: all .25s var(--ease-bounce);
+    position: relative;
+}
+
+.dock-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    font-family: var(--font-mono);
+    font-size: .6rem;
+    letter-spacing: .1em;
+    color: var(--neon-cyan);
+    background: var(--bg-deep);
+    border: 1px solid rgba(0,245,212,.2);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s, transform .2s;
+}
+
+.dock-btn:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.dock-btn:hover {
+    color: var(--neon-cyan);
+    border-color: rgba(0,245,212,.25);
+    background: rgba(0,245,212,.06);
+    box-shadow: var(--glow-cyan);
+    transform: translateY(-2px);
+}
+
+.dock-btn.active {
+    color: var(--neon-cyan);
+    border-color: var(--neon-cyan);
+    background: rgba(0,245,212,.1);
+    box-shadow: var(--glow-cyan);
+}
+
+.dock-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255,255,255,.1);
+    margin: 0 4px;
+}
+
+.speed-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 4px;
+}
+
+.speed-label {
+    font-family: var(--font-mono);
+    font-size: .55rem;
+    letter-spacing: .15em;
+    color: var(--text-dim);
+}
+
+.speed-slider {
+    -webkit-appearance: none;
+    width: 60px;
+    height: 3px;
+    background: var(--bg-surface);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.speed-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    box-shadow: var(--glow-cyan);
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.speed-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.3);
+}
+
+.speed-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    border: none;
+    box-shadow: var(--glow-cyan);
+    cursor: pointer;
+}
+
+/* --- Park Grid --- */
+.park-grid {
+    position: relative;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 2rem 8rem;
+}
+
+/* --- Ride Card --- */
+.ride-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,.04);
+    border-radius: 20px;
+    padding: 2rem;
+    min-height: 340px;
+    overflow: hidden;
+    transition: transform .4s var(--ease-smooth), box-shadow .4s, border-color .4s, background .4s;
+}
+
+.ride-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: conic-gradient(from 0deg, transparent 60%, var(--neon-cyan) 75%, var(--neon-magenta) 85%, transparent 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity .5s;
+    animation: borderSpin 6s linear infinite;
+}
+
+.ride-card:hover::before {
+    opacity: 1;
+}
+
+.ride-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0,245,212,.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,.3), 0 0 40px rgba(0,245,212,.05);
+    background: var(--bg-card-hover);
+}
+
+.theme-day .ride-card {
+    box-shadow: 0 4px 20px rgba(0,0,0,.04);
+}
+.theme-day .ride-card:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,.08);
+}
+
+/* Ride Label */
+.ride-label {
+    display: flex;
+    align-items: baseline;
+    gap: .75rem;
+    margin-bottom: 1.5rem;
+}
+
+.ride-num {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    font-weight: 700;
+    color: var(--neon-cyan);
+    letter-spacing: .15em;
+    text-shadow: var(--glow-cyan);
+}
+
+.ride-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--text-primary);
+}
+
+.ride-tag {
+    font-family: var(--font-mono);
+    font-size: .5rem;
+    letter-spacing: .2em;
+    color: var(--text-dim);
+    margin-left: auto;
+    text-transform: uppercase;
+}
+
+/* --- Reveal Animation --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .7s var(--ease-smooth), transform .7s var(--ease-smooth);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal:nth-child(2) { transition-delay: .12s; }
+.reveal:nth-child(3) { transition-delay: .24s; }
+.reveal:nth-child(4) { transition-delay: .36s; }
+
+/* ============================================================
+   RIDE: FERRIS WHEEL
+   ============================================================ */
+.ferris-scene {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+}
+
+.ferris-wheel {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border: 3px solid var(--neon-cyan);
+    border-radius: 50%;
+    box-shadow: var(--glow-cyan), inset 0 0 20px rgba(0,245,212,.08);
+    animation: ferrisSpin calc(16s / var(--speed)) linear infinite;
+}
+
+.ferris-hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background: var(--neon-yellow);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--glow-yellow);
+    z-index: 2;
+}
+
+.ferris-spoke {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0,245,212,.6), rgba(0,245,212,.1));
+    transform-origin: left center;
+    transform: rotate(var(--r));
+}
+
+.ferris-cabin {
+    position: absolute;
+    width: 22px;
+    height: 18px;
+    background: var(--neon-magenta);
+    border-radius: 4px 4px 8px 8px;
+    box-shadow: var(--glow-magenta);
+    top: 50%;
+    left: 50%;
+    transform: rotate(var(--angle)) translateX(97px) rotate(calc(-1 * var(--angle)));
+    animation: cabinLevel calc(16s / var(--speed)) linear infinite reverse;
+}
+
+.ferris-stand {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 60px solid var(--bg-surface);
+}
+
+.ferris-stand::before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    left: -30px;
+    width: 60px;
+    height: 6px;
+    background: var(--neon-cyan);
+    border-radius: 3px;
+    box-shadow: var(--glow-cyan);
+}
+
+.ferris-base {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--neon-cyan);
+    border-radius: 2px;
+    box-shadow: var(--glow-cyan);
+}
+
+/* ============================================================
+   RIDE: ROLLER COASTER
+   ============================================================ */
+.coaster-scene {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+}
+
+.coaster-track {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.track-path {
+    stroke: rgba(0,245,212,.15);
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.track-rail {
+    stroke: var(--neon-cyan);
+    stroke-width: 3;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px rgba(0,245,212,.5));
+    stroke-dasharray: 8 6;
+    animation: railDash calc(2s / var(--speed)) linear infinite;
+}
+
+.coaster-supports {
+    position: absolute;
+    inset: 0;
+}
+
+.support {
+    position: absolute;
+    bottom: 0;
+    left: var(--x);
+    width: 2px;
+    height: var(--h);
+    background: linear-gradient(to top, rgba(0,245,212,.3), transparent);
+}
+
+.coaster-car {
+    position: absolute;
+    width: 36px;
+    height: 20px;
+    offset-path: path('M0,180 Q60,180 80,140 Q100,100 130,90 Q160,80 180,60 Q210,30 240,80 Q270,130 300,140 Q330,150 360,100 Q390,50 420,80 Q450,110 480,120 Q500,125 500,180');
+    animation: coasterRide calc(5s / var(--speed)) linear infinite;
+}
+
+.car-body {
+    width: 100%;
+    height: 100%;
+    background: var(--neon-magenta);
+    border-radius: 6px 6px 4px 4px;
+    box-shadow: var(--glow-magenta);
+    position: relative;
+}
+
+.car-body::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    right: 4px;
+    height: 4px;
+    background: rgba(255,255,255,.3);
+    border-radius: 2px;
+}
+
+.car-wheel {
+    position: absolute;
+    bottom: -4px;
+    width: 8px;
+    height: 8px;
+    background: var(--neon-yellow);
+    border-radius: 50%;
+    box-shadow: var(--glow-yellow);
+}
+
+.car-wheel--l { left: 4px; }
+.car-wheel--r { right: 4px; }
+
+/* ============================================================
+   RIDE: CAROUSEL
+   ============================================================ */
+.carousel-scene {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-canopy {
+    width: 180px;
+    height: 30px;
+    background: conic-gradient(
+        var(--neon-magenta) 0deg,
+        var(--neon-yellow) 45deg,
+        var(--neon-cyan) 90deg,
+        var(--neon-violet) 135deg,
+        var(--neon-magenta) 180deg,
+        var(--neon-yellow) 225deg,
+        var(--neon-cyan) 270deg,
+        var(--neon-violet) 315deg,
+        var(--neon-magenta) 360deg
+    );
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    margin-bottom: -4px;
+    animation: canopyGlow 3s ease-in-out infinite;
+    filter: brightness(1.1);
+}
+
+.carousel-pole-center {
+    width: 4px;
+    height: 100px;
+    background: linear-gradient(to bottom, var(--neon-yellow), var(--neon-orange));
+    box-shadow: var(--glow-yellow);
+    position: absolute;
+    top: 30px;
+    z-index: 5;
+}
+
+.carousel-platform {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 2px solid var(--neon-violet);
+    box-shadow: var(--glow-violet);
+    position: relative;
+    animation: carouselSpin calc(8s / var(--speed)) linear infinite;
+}
+
+.carousel-horse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: rotate(var(--pos)) translateX(60px) rotate(calc(-1 * var(--pos)));
+    animation: horseLevel calc(8s / var(--speed)) linear infinite reverse;
+}
+
+.horse-body {
+    width: 24px;
+    height: 16px;
+    background: var(--neon-cyan);
+    border-radius: 8px 8px 4px 4px;
+    box-shadow: var(--glow-cyan);
+    position: relative;
+    animation: horseBounce calc(1.5s / var(--speed)) ease-in-out infinite;
+}
+
+.horse-body::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    border-radius: 50% 50% 20% 20%;
+}
+
+.horse-body.alt {
+    background: var(--neon-yellow);
+    box-shadow: var(--glow-yellow);
+}
+
+.horse-pole {
+    position: absolute;
+    left: 50%;
+    top: -20px;
+    width: 2px;
+    height: 20px;
+    background: rgba(255,255,255,.25);
+    transform: translateX(-50%);
+}
+
+.carousel-base-ring {
+    width: 180px;
+    height: 12px;
+    background: var(--bg-surface);
+    border: 1px solid rgba(123,47,247,.3);
+    border-radius: 50%;
+    margin-top: -6px;
+}
+
+/* ============================================================
+   RIDE: BUMPER CARS
+   ============================================================ */
+.bumper-scene {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bumper-arena {
+    position: relative;
+    width: 90%;
+    height: 180px;
+    border: 2px solid rgba(123,47,247,.2);
+    border-radius: 20px;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, rgba(123,47,247,.06) 0%, transparent 70%);
+}
+
+.arena-border {
+    position: absolute;
+    inset: -2px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background: conic-gradient(from 90deg, var(--neon-violet), var(--neon-cyan), var(--neon-magenta), var(--neon-violet)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: .4;
+    animation: borderSpin calc(8s / var(--speed)) linear infinite;
+}
+
+.bumper-car {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+}
+
+.bumper-car--1 {
+    animation: bumper1 calc(4s / var(--speed)) ease-in-out infinite;
+    top: 30%;
+    left: 20%;
+}
+
+.bumper-car--2 {
+    animation: bumper2 calc(5s / var(--speed)) ease-in-out infinite;
+    top: 55%;
+    left: 55%;
+}
+
+.bumper-car--3 {
+    animation: bumper3 calc(4.5s / var(--speed)) ease-in-out infinite;
+    top: 25%;
+    left: 70%;
+}
+
+.bumper-shell {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+}
+
+.bumper-car--1 .bumper-shell {
+    background: var(--neon-cyan);
+    box-shadow: var(--glow-cyan);
+}
+
+.bumper-car--2 .bumper-shell {
+    background: var(--neon-magenta);
+    box-shadow: var(--glow-magenta);
+}
+
+.bumper-car--3 .bumper-shell {
+    background: var(--neon-yellow);
+    box-shadow: var(--glow-yellow);
+}
+
+.bumper-shell::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 6px;
+    background: rgba(255,255,255,.4);
+    border-radius: 50%;
+}
+
+.bumper-antenna {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 12px;
+    background: rgba(255,255,255,.3);
+}
+
+.bumper-antenna::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -2px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--neon-yellow);
+    box-shadow: var(--glow-yellow);
+    animation: sparkBlink calc(1s / var(--speed)) ease-in-out infinite;
+}
+
+.bumper-spark {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 6px white, 0 0 12px var(--neon-yellow);
+    opacity: 0;
+    animation: sparkFlash calc(3s / var(--speed)) ease-out infinite;
+}
+
+.bumper-car--1 .bumper-spark { top: 50%; right: -8px; animation-delay: 1s; }
+.bumper-car--2 .bumper-spark { top: 10%; left: -8px; animation-delay: 2s; }
+.bumper-car--3 .bumper-spark { bottom: 0; left: 50%; animation-delay: .5s; }
+
+/* ============================================================
+   STATUS BAR / FOOTER
+   ============================================================ */
+.status-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: .55rem;
+    letter-spacing: .15em;
+    color: var(--text-dim);
+    background: rgba(6,10,26,.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,.03);
+}
+
+.theme-day .status-bar {
+    background: rgba(255,255,255,.7);
+    border-bottom-color: rgba(0,0,0,.05);
+}
+
+.status-left, .status-right {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    box-shadow: var(--glow-cyan);
+    animation: dotPulse 2s ease-in-out infinite;
+}
+
+.status-center {
+    font-family: var(--font-body);
+    font-size: .65rem;
+    letter-spacing: .08em;
+    color: var(--text-muted);
+}
+
+.status-separator {
+    color: var(--text-dim);
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes neonFlicker {
+    0%, 100% { opacity: 1; }
+    5% { opacity: .85; }
+    10% { opacity: 1; }
+    50% { opacity: .95; }
+    55% { opacity: 1; }
+}
+
+@keyframes bracketPulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: .7; transform: scaleY(1.02); }
+}
+
+@keyframes cursorBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+@keyframes dividerPulse {
+    0%, 100% { transform: scale(1); opacity: .6; }
+    50% { transform: scale(1.6); opacity: 1; }
+}
+
+@keyframes borderSpin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-@keyframes rideEnhanced {
-    0% { 
-        transform: translateX(0) translateY(0) rotate(0deg); 
-        filter: hue-rotate(0deg);
-    }
-    20% { 
-        transform: translateX(80px) translateY(-40px) rotate(-8deg); 
-        filter: hue-rotate(72deg);
-    }
-    40% { 
-        transform: translateX(160px) translateY(-20px) rotate(0deg); 
-        filter: hue-rotate(144deg);
-    }
-    60% { 
-        transform: translateX(240px) translateY(-50px) rotate(5deg); 
-        filter: hue-rotate(216deg);
-    }
-    80% { 
-        transform: translateX(320px) translateY(-10px) rotate(-3deg); 
-        filter: hue-rotate(288deg);
-    }
-    100% { 
-        transform: translateX(400px) translateY(0) rotate(0deg); 
-        filter: hue-rotate(360deg);
-    }
+/* Ferris */
+@keyframes ferrisSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
-@keyframes passengerExcitement {
-    0% { transform: translateX(-50%) scale(1); }
-    100% { transform: translateX(-50%) scale(1.1) rotate(5deg); }
+@keyframes cabinLevel {
+    from { transform: rotate(var(--angle)) translateX(97px) rotate(calc(-1 * var(--angle))); }
+    to { transform: rotate(calc(var(--angle) - 360deg)) translateX(97px) rotate(calc(-1 * (var(--angle) - 360deg))); }
 }
 
-@keyframes cabinKeepLevel {
-    from { transform: rotate(0deg) translateX(140px) rotate(0deg); }
-    to { transform: rotate(-360deg) translateX(140px) rotate(360deg); }
+/* Coaster */
+@keyframes coasterRide {
+    0% { offset-distance: 0%; }
+    100% { offset-distance: 100%; }
 }
 
-@keyframes horseUpDown {
+@keyframes railDash {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: -28; }
+}
+
+/* Carousel */
+@keyframes carouselSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes horseLevel {
+    from { transform: rotate(var(--pos)) translateX(60px) rotate(calc(-1 * var(--pos))); }
+    to { transform: rotate(calc(var(--pos) - 360deg)) translateX(60px) rotate(calc(-1 * (var(--pos) - 360deg))); }
+}
+
+@keyframes horseBounce {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+    50% { transform: translateY(-8px); }
 }
 
-@keyframes ribbonWave {
-    0%, 100% { transform: rotate(0deg) scale(1); }
-    25% { transform: rotate(15deg) scale(1.1); }
-    75% { transform: rotate(-10deg) scale(0.9); }
+@keyframes canopyGlow {
+    0%, 100% { filter: brightness(1.1) saturate(1); }
+    50% { filter: brightness(1.4) saturate(1.3); }
 }
 
-@keyframes flowerSway {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(10deg); }
+/* Bumper cars */
+@keyframes bumper1 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(60px, 20px) rotate(15deg); }
+    50% { transform: translate(40px, -15px) rotate(-10deg); }
+    75% { transform: translate(-20px, 10px) rotate(5deg); }
 }
 
-@keyframes spotlightMove {
-    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-    50% { transform: translate(20px, -10px) scale(1.2); opacity: 0.6; }
+@keyframes bumper2 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-40px, -25px) rotate(-20deg); }
+    50% { transform: translate(-60px, 15px) rotate(10deg); }
+    75% { transform: translate(20px, -10px) rotate(-5deg); }
 }
 
-@keyframes footerGlow {
-    0%, 100% { text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); }
-    50% { text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3); }
+@keyframes bumper3 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-30px, 30px) rotate(12deg); }
+    50% { transform: translate(20px, 20px) rotate(-18deg); }
+    75% { transform: translate(40px, -20px) rotate(8deg); }
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .park-title {
-        font-size: 2.5rem;
-    }
-    
-    .amusement-park {
-        width: 95vw;
-        height: 70vh;
-    }
-    
-    .roller-coaster {
-        width: 300px;
-        left: 2%;
-    }
-    
-    .ferris-wheel {
-        width: 250px;
-        height: 250px;
-        right: 5%;
-    }
-    
-    .wheel {
-        width: 180px;
-        height: 180px;
-    }
-    
-    .control-panel {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-    
-    .control-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
+@keyframes sparkBlink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .3; transform: scale(.6); }
 }
 
-/* 动画暂停类（为控制按钮准备） */
-.paused * {
+@keyframes sparkFlash {
+    0%, 70%, 100% { opacity: 0; transform: scale(0); }
+    75% { opacity: 1; transform: scale(1.5); }
+    85% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes dotPulse {
+    0%, 100% { opacity: 1; box-shadow: var(--glow-cyan); }
+    50% { opacity: .5; box-shadow: none; }
+}
+
+/* ============================================================
+   PAUSE STATE
+   ============================================================ */
+.paused .ferris-wheel,
+.paused .carousel-platform,
+.paused .coaster-car,
+.paused .track-rail,
+.paused .bumper-car,
+.paused .bumper-antenna::after,
+.paused .bumper-spark,
+.paused .arena-border,
+.paused .horse-body,
+.paused .carousel-canopy,
+.paused .particle {
     animation-play-state: paused !important;
 }
 
-/* 悬浮效果增强 */
-.ferris-wheel:hover .wheel {
-    animation-duration: 8s;
+/* ============================================================
+   TOAST MESSAGE
+   ============================================================ */
+.toast {
+    position: fixed;
+    top: 3rem;
+    right: 1.5rem;
+    z-index: 200;
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    letter-spacing: .1em;
+    color: var(--bg-void);
+    padding: 10px 20px;
+    border-radius: 8px;
+    transform: translateX(120%);
+    transition: transform .35s var(--ease-bounce);
+    box-shadow: 0 8px 24px rgba(0,0,0,.3);
 }
 
-.roller-coaster:hover .cart {
-    animation-duration: 3s;
+.toast.show {
+    transform: translateX(0);
 }
 
-.carousel:hover .carousel-base {
-    animation-duration: 4s;
+.toast--cyan { background: var(--neon-cyan); }
+.toast--magenta { background: var(--neon-magenta); color: white; }
+.toast--yellow { background: var(--neon-yellow); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .park-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem 1rem 7rem;
+        gap: 1.5rem;
+    }
+
+    .hero {
+        padding: 5rem 1rem 2rem;
+    }
+
+    .neon-title {
+        font-size: clamp(1.8rem, 8vw, 3rem);
+    }
+
+    .neon-bracket {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+
+    .control-dock {
+        bottom: 1rem;
+    }
+
+    .dock-glass {
+        padding: 6px 12px;
+        gap: 4px;
+    }
+
+    .speed-control {
+        display: none;
+    }
+
+    .status-center {
+        display: none;
+    }
+
+    .ride-card {
+        min-height: 280px;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-sub {
+        font-size: .6rem;
+    }
+
+    .dock-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .ride-name {
+        font-size: 1.2rem;
+    }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

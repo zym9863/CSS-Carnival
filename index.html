@@ -3,104 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS Carnival - 魔法游乐园</title>
+    <title>CSS Carnival - 午夜霓虹嘉年华</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=DM+Sans:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- 背景装饰 -->
-    <div class="background-decorations">
-        <div class="stars"></div>
-        <div class="clouds">
-            <div class="cloud cloud-1"></div>
-            <div class="cloud cloud-2"></div>
-            <div class="cloud cloud-3"></div>
-        </div>
-    </div>
+    <!-- 背景层 -->
+    <div class="bg-grid"></div>
+    <div class="bg-noise"></div>
+    <div class="scanlines"></div>
 
-    <!-- 主标题 -->
-    <header class="park-header">
-        <h1 class="park-title">🎪 CSS Carnival 🎪</h1>
-        <p class="park-subtitle">欢迎来到魔法游乐园</p>
+    <!-- 粒子容器 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 导航/标题区 -->
+    <header class="hero">
+        <div class="neon-sign">
+            <span class="neon-bracket">[</span>
+            <h1 class="neon-title">
+                <span class="neon-letter" style="--i:0">C</span>
+                <span class="neon-letter" style="--i:1">S</span>
+                <span class="neon-letter" style="--i:2">S</span>
+                <span class="neon-spacer"></span>
+                <span class="neon-letter accent" style="--i:3">C</span>
+                <span class="neon-letter accent" style="--i:4">A</span>
+                <span class="neon-letter accent" style="--i:5">R</span>
+                <span class="neon-letter accent" style="--i:6">N</span>
+                <span class="neon-letter accent" style="--i:7">I</span>
+                <span class="neon-letter accent" style="--i:8">V</span>
+                <span class="neon-letter accent" style="--i:9">A</span>
+                <span class="neon-letter accent" style="--i:10">L</span>
+            </h1>
+            <span class="neon-bracket">]</span>
+        </div>
+        <p class="hero-sub">
+            <span class="typing-text">// 午夜霓虹嘉年华 — 纯CSS魔法构建</span>
+            <span class="cursor-blink">_</span>
+        </p>
+        <div class="hero-divider">
+            <span></span><span></span><span></span>
+        </div>
     </header>
 
-    <!-- 控制面板 -->
-    <div class="control-panel">
-        <button class="control-btn" id="playBtn">▶️ 开始狂欢</button>
-        <button class="control-btn" id="pauseBtn">⏸️ 暂停</button>
-        <button class="control-btn" id="resetBtn">🔄 重置</button>
-    </div>
-
-    <div class="amusement-park">
-        <!-- 过山车部分 -->
-        <div class="roller-coaster">
-            <div class="track"></div>
-            <div class="cart">
-                <div class="passenger"></div>
+    <!-- 控制台 -->
+    <nav class="control-dock" id="controlDock">
+        <div class="dock-glass">
+            <button class="dock-btn active" id="playBtn" data-tooltip="播放">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <polygon points="5,3 19,12 5,21"/>
+                </svg>
+            </button>
+            <button class="dock-btn" id="pauseBtn" data-tooltip="暂停">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/>
+                </svg>
+            </button>
+            <button class="dock-btn" id="resetBtn" data-tooltip="重置">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                </svg>
+            </button>
+            <div class="dock-divider"></div>
+            <button class="dock-btn" id="themeBtn" data-tooltip="切换主题">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+                </svg>
+            </button>
+            <div class="speed-control">
+                <label class="speed-label">SPD</label>
+                <input type="range" id="speedSlider" min="0.2" max="3" step="0.1" value="1" class="speed-slider">
             </div>
-            <div class="track-support"></div>
         </div>
+    </nav>
 
-        <!-- 摩天轮部分 -->
-        <div class="ferris-wheel">
-            <div class="wheel">
-                <div class="wheel-center"></div>
-                <div class="cabin cabin-1">🎈</div>
-                <div class="cabin cabin-2">🎭</div>
-                <div class="cabin cabin-3">🎪</div>
-                <div class="cabin cabin-4">🎨</div>
-                <div class="cabin cabin-5">🎵</div>
-                <div class="cabin cabin-6">⭐</div>
-                <div class="wheel-spokes"></div>
+    <!-- 游乐场主体 -->
+    <main class="park-grid">
+
+        <!-- 摩天轮 -->
+        <section class="ride-card ride-card--ferris reveal" data-ride="ferris">
+            <div class="ride-label">
+                <span class="ride-num">01</span>
+                <span class="ride-name">摩天轮</span>
+                <span class="ride-tag">FERRIS WHEEL</span>
             </div>
-            <div class="stand"></div>
-            <div class="base"></div>
-        </div>
+            <div class="ferris-scene">
+                <div class="ferris-wheel">
+                    <div class="ferris-hub"></div>
+                    <div class="ferris-spoke" style="--r:0deg"></div>
+                    <div class="ferris-spoke" style="--r:30deg"></div>
+                    <div class="ferris-spoke" style="--r:60deg"></div>
+                    <div class="ferris-spoke" style="--r:90deg"></div>
+                    <div class="ferris-spoke" style="--r:120deg"></div>
+                    <div class="ferris-spoke" style="--r:150deg"></div>
+                    <div class="ferris-cabin" style="--angle:0deg"></div>
+                    <div class="ferris-cabin" style="--angle:60deg"></div>
+                    <div class="ferris-cabin" style="--angle:120deg"></div>
+                    <div class="ferris-cabin" style="--angle:180deg"></div>
+                    <div class="ferris-cabin" style="--angle:240deg"></div>
+                    <div class="ferris-cabin" style="--angle:300deg"></div>
+                </div>
+                <div class="ferris-stand"></div>
+                <div class="ferris-base"></div>
+            </div>
+        </section>
+
+        <!-- 过山车 -->
+        <section class="ride-card ride-card--coaster reveal" data-ride="coaster">
+            <div class="ride-label">
+                <span class="ride-num">02</span>
+                <span class="ride-name">过山车</span>
+                <span class="ride-tag">ROLLER COASTER</span>
+            </div>
+            <div class="coaster-scene">
+                <svg class="coaster-track" viewBox="0 0 500 200" preserveAspectRatio="none">
+                    <path class="track-path" d="M0,180 Q60,180 80,140 Q100,100 130,90 Q160,80 180,60 Q210,30 240,80 Q270,130 300,140 Q330,150 360,100 Q390,50 420,80 Q450,110 480,120 Q500,125 500,180" fill="none"/>
+                    <path class="track-rail" d="M0,180 Q60,180 80,140 Q100,100 130,90 Q160,80 180,60 Q210,30 240,80 Q270,130 300,140 Q330,150 360,100 Q390,50 420,80 Q450,110 480,120 Q500,125 500,180" fill="none"/>
+                </svg>
+                <div class="coaster-supports">
+                    <div class="support" style="--x:15%;--h:60px"></div>
+                    <div class="support" style="--x:30%;--h:110px"></div>
+                    <div class="support" style="--x:45%;--h:140px"></div>
+                    <div class="support" style="--x:60%;--h:80px"></div>
+                    <div class="support" style="--x:75%;--h:100px"></div>
+                    <div class="support" style="--x:90%;--h:70px"></div>
+                </div>
+                <div class="coaster-car">
+                    <div class="car-body"></div>
+                    <div class="car-wheel car-wheel--l"></div>
+                    <div class="car-wheel car-wheel--r"></div>
+                </div>
+            </div>
+        </section>
 
         <!-- 旋转木马 -->
-        <div class="carousel">
-            <div class="carousel-top"></div>
-            <div class="carousel-base">
-                <div class="horse horse-1">🦄</div>
-                <div class="horse horse-2">🐎</div>
-                <div class="horse horse-3">🦓</div>
-                <div class="horse horse-4">🐴</div>
+        <section class="ride-card ride-card--carousel reveal" data-ride="carousel">
+            <div class="ride-label">
+                <span class="ride-num">03</span>
+                <span class="ride-name">旋转木马</span>
+                <span class="ride-tag">CAROUSEL</span>
             </div>
-            <div class="carousel-pole"></div>
-        </div>
-
-        <!-- 彩带装饰 -->
-        <div class="ribbons">
-            <div class="ribbon ribbon-1"></div>
-            <div class="ribbon ribbon-2"></div>
-            <div class="ribbon ribbon-3"></div>
-            <div class="ribbon ribbon-4"></div>
-            <div class="ribbon ribbon-5"></div>
-        </div>
-
-        <!-- 地面装饰 -->
-        <div class="ground">
-            <div class="grass"></div>
-            <div class="flowers">
-                <div class="flower flower-1">🌸</div>
-                <div class="flower flower-2">🌺</div>
-                <div class="flower flower-3">🌼</div>
-                <div class="flower flower-4">🌻</div>
+            <div class="carousel-scene">
+                <div class="carousel-canopy"></div>
+                <div class="carousel-pole-center"></div>
+                <div class="carousel-platform">
+                    <div class="carousel-horse" style="--pos:0deg">
+                        <div class="horse-body"></div>
+                        <div class="horse-pole"></div>
+                    </div>
+                    <div class="carousel-horse" style="--pos:90deg">
+                        <div class="horse-body alt"></div>
+                        <div class="horse-pole"></div>
+                    </div>
+                    <div class="carousel-horse" style="--pos:180deg">
+                        <div class="horse-body"></div>
+                        <div class="horse-pole"></div>
+                    </div>
+                    <div class="carousel-horse" style="--pos:270deg">
+                        <div class="horse-body alt"></div>
+                        <div class="horse-pole"></div>
+                    </div>
+                </div>
+                <div class="carousel-base-ring"></div>
             </div>
-        </div>
+        </section>
 
-        <!-- 灯光效果 -->
-        <div class="lighting">
-            <div class="spotlight spotlight-1"></div>
-            <div class="spotlight spotlight-2"></div>
-            <div class="spotlight spotlight-3"></div>
-        </div>
-    </div>
+        <!-- 碰碰车 -->
+        <section class="ride-card ride-card--bumper reveal" data-ride="bumper">
+            <div class="ride-label">
+                <span class="ride-num">04</span>
+                <span class="ride-name">碰碰车</span>
+                <span class="ride-tag">BUMPER CARS</span>
+            </div>
+            <div class="bumper-scene">
+                <div class="bumper-arena">
+                    <div class="bumper-car bumper-car--1">
+                        <div class="bumper-shell"></div>
+                        <div class="bumper-antenna"></div>
+                        <div class="bumper-spark"></div>
+                    </div>
+                    <div class="bumper-car bumper-car--2">
+                        <div class="bumper-shell"></div>
+                        <div class="bumper-antenna"></div>
+                        <div class="bumper-spark"></div>
+                    </div>
+                    <div class="bumper-car bumper-car--3">
+                        <div class="bumper-shell"></div>
+                        <div class="bumper-antenna"></div>
+                        <div class="bumper-spark"></div>
+                    </div>
+                </div>
+                <div class="arena-border"></div>
+            </div>
+        </section>
 
-    <!-- 页脚信息 -->
-    <footer class="park-footer">
-        <p>✨ 纯CSS魔法制作 | 无需JavaScript ✨</p>
+    </main>
+
+    <!-- 状态栏页脚 -->
+    <footer class="status-bar">
+        <div class="status-left">
+            <span class="status-dot"></span>
+            <span>SYSTEM ONLINE</span>
+        </div>
+        <div class="status-center">
+            纯CSS动画引擎 &mdash; 零依赖构建
+        </div>
+        <div class="status-right">
+            <span id="fpsCounter">60 FPS</span>
+            <span class="status-separator">|</span>
+            <span id="animCount">14 ANIMS</span>
+        </div>
     </footer>
 </body>
 </html>
